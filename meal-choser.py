@@ -74,3 +74,10 @@ if st.button('Find Place'):
         st.write(f" You chose : {new_df['Name'].iloc[0]} :yum:")
     else:
         st.write("You are too difficult to satisfy :weary:")
+
+hide_menu_style = """
+        <style>
+        #MainMenu {visibility: hidden;}
+        </style>
+        """
+st.markdown(hide_menu_style, unsafe_allow_html=True)

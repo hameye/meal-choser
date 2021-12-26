@@ -19,13 +19,21 @@ new_df  = pd.DataFrame(df.values[1:], columns=headers)
 new_df['Distance'] = new_df['Distance'].astype(float)
 
 
-st.title('Meal Choser')
+bretzel_icon = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/285/pretzel_1f968.png"
+
+# Set page title and favicon.
+st.set_page_config(
+    page_title="MealChooser", page_icon=bretzel_icon,
+)
+
+
+st.title('MealChooser')
 
 # Filter Genre
 genre = st.radio(
-    "Do you want a hot or cold meal",
-    ('Hot', 'Cold'))
-new_df = new_df[new_df['Hot/Cold'] == genre]
+    "Meal Type",
+    ('Warm', 'Cold'))
+new_df = new_df[new_df['Warm/Cold'] == genre]
 
 
 
@@ -33,7 +41,7 @@ new_df = new_df[new_df['Hot/Cold'] == genre]
 where_options = np.unique(new_df['Here/ToGo'])
 if len(where_options) > 1: 
     where = st.radio(
-        "Do you want here or to go",
+        "How",
         ('Here', 'ToGo'), index=1)
     new_df = new_df[new_df['Here/ToGo'] == where]
 
@@ -44,7 +52,7 @@ dist_min = float(new_df['Distance'].min())
 dist_max = float(new_df['Distance'].max())
 if dist_max != dist_min:
     values = st.slider(
-        'Select the distance range',
+        'Distance (km)',
         dist_min, dist_max, (dist_min, dist_max))
     new_df = new_df[new_df['Distance'] >= values[0]]
     new_df = new_df[new_df['Distance'] <= values[1]]
@@ -55,14 +63,14 @@ if dist_max != dist_min:
 food_options = np.unique(new_df['Type'])
 if len(food_options) > 1:
     options = st.multiselect(
-        'What kind of food do you want',
+        'Food Kind',
         food_options)
 
-if st.button('Compute Location'):
+if st.button('Find Place'):
     if len(new_df) > 1:
         st.write(
-            f" The Meal Choser chosed for you : {new_df.sample(1)['Nom'].iloc[0]} :yum:")
+            f" The Meal Chooser chosed for you : {new_df.sample(1)['Name'].iloc[0]} :yum:")
     elif len(new_df) == 1:
-        st.write(f" You chosed : {new_df['Nom'].iloc[0]} :yum:")
+        st.write(f" You chose : {new_df['Name'].iloc[0]} :yum:")
     else:
         st.write("You are too difficult to satisfy :weary:")

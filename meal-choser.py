@@ -31,10 +31,9 @@ def filter_genre(df, genre):
     df = df[new_df['Warm/Cold'] == genre]
     return df
 
+google_key = st.secrets["google_api_key"]
 # Get Sheet From Google API
-r = requests.get(
-    'https://sheets.googleapis.com/v4/spreadsheets/1aEK8c3xDDAetlMKmC11r37D82KRaq73bP7VGMgvETTU/values/sheet1?valueRenderOption=FORMATTED_VALUE&key=AIzaSyB1LRyMMyhUzs7ac8keUcBdBpEEHD-Zni8'
-    ) 
+r = requests.get(google_key) 
 
 # Convert bytes to dict and load as DataFrame
 new_df = load_data(r)
